@@ -8,15 +8,17 @@ import (
 )
 
 type Request struct {
-	Headers map[string]string
-	Method  string
-	Url     string
+	Headers    map[string]string
+	Method     string
+	Url        string
+	httpClient *http.Client
 }
 
-func NewRequest(url string) *Request {
+func NewRequest(httpClient *http.Client, url string) *Request {
 	req := &Request{
-		Url:     url,
-		Headers: make(map[string]string),
+		Url:        url,
+		Headers:    make(map[string]string),
+		httpClient: httpClient,
 	}
 	req.setDefault()
 	return req
@@ -82,7 +84,7 @@ func (self *Request) send(body interface{}) (*Response, error) {
 		req.Header.Set(k, v)
 	}
 
-	resp, err := httpClient.Do(req)
+	resp, err := self.httpClient.Do(req)
 	if err != nil {
 		return nil, err
 	}
