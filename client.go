@@ -22,10 +22,13 @@ func New(maxConn int, timeout time.Duration) *Client {
 		},
 		Timeout: timeout * time.Second,
 	}
-	return &Client{c}
+
+	return &Client{
+		Client: c,
+	}
 }
 
-func Default(maxConn int, timeout time.Duration) *Client {
+func Default() *Client {
 	return New(HTTP_CLIENT_MAX_CONNECTIONS, time.Duration(HTTP_CLIENT_REQUEST_TIMEOUT))
 }
 
