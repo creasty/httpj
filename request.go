@@ -26,6 +26,11 @@ func (self *Request) setDefault() {
 	self.SetHeader("Content-Type", "application/json")
 }
 
+func (self *Request) SetHeader(key, value string) *Request {
+	self.Headers[key] = value
+	return self
+}
+
 func (self *Request) Get(body interface{}) (*Response, error) {
 	self.Method = "GET"
 	return self.send(body)
@@ -51,11 +56,6 @@ func (self *Request) Head(body interface{}) (*Response, error) {
 	return self.send(body)
 }
 
-func (self *Request) SetHeader(key, value string) *Request {
-	self.Headers[key] = value
-	return self
-}
-
 func (self *Request) send(body interface{}) (*Response, error) {
 	var reqBody io.Reader = nil
 
@@ -71,7 +71,6 @@ func (self *Request) send(body interface{}) (*Response, error) {
 			}
 			reqBody = bytes.NewBuffer(s)
 		}
-
 	}
 
 	req, err := http.NewRequest(self.Method, self.Url, reqBody)
