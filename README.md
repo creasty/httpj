@@ -13,7 +13,7 @@ type User struct {
 	Name string `json:"name"`
 }
 
-resp, err := httpj.NewRequest("https://www.example.com/users/123").
+resp, err := httpj.Default().NewRequest("https://www.example.com/users/123").
 	SetHeader("Authorization", "Barer xxxxxxxxxxxxxxx").
 	Patch(User{Name: "John"})
 if err != nil {
