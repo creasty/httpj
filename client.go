@@ -12,6 +12,7 @@ const (
 
 type Client struct {
 	*http.Client
+	UrlPrefix string
 }
 
 func New(maxConn int, timeout time.Duration) *Client {
@@ -29,5 +30,5 @@ func Default(maxConn int, timeout time.Duration) *Client {
 }
 
 func (self *Client) NewRequest(url string) *Request {
-	return NewRequest(self.Client, url)
+	return NewRequest(self.Client, self.UrlPrefix+url)
 }
