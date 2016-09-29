@@ -18,8 +18,7 @@ type Client struct {
 func New() *Client {
 	return &Client{
 		Client: &http.Client{
-			Transport: &http.Transport{},
-			Timeout:   0,
+			Timeout: 0,
 		},
 	}
 }
@@ -36,7 +35,9 @@ func (self *Client) SetTimeout(timeout time.Duration) *Client {
 }
 
 func (self *Client) SetMaxConnection(num int) *Client {
-	self.Client.Transport.MaxIdleConnsPerHost = num
+	self.Client.Transport = &http.Transport{
+		MaxIdleConnsPerHost: num,
+	}
 	return self
 }
 
